@@ -4,13 +4,17 @@ import { css } from "@emotion/react";
 import {
   ArrowDown,
   CaretLeft,
-  Gear,
   House,
   Moon,
   Note,
   Notebook,
   Sun,
 } from "phosphor-react";
+
+type SideMenuProps = {
+  theme: string;
+  setTheme: any;
+};
 
 const SideMenuStyle = {
   self: css({
@@ -20,8 +24,9 @@ const SideMenuStyle = {
     gap: "5px",
     width: "280px",
     height: "100vh",
-    background: "var(--dark-blue)",
-    color: "var(--bg)",
+    background: "var(--bg-primary)",
+    color: "var(--text)",
+    borderRight: "1px solid var(--text)",
   }),
   settings: css({
     width: "100%",
@@ -37,12 +42,7 @@ const SideMenuStyle = {
     alignItems: "center",
     paddingRight: "1rem",
     gap: "5px",
-    div: css({
-      display: "flex",
-      background: "var(--bg)",
-      borderRadius: "20px",
-      alignSelf: "end",
-    }),
+    svg: css({ cursor: "pointer" }),
   }),
   user: css({
     display: "flex",
@@ -82,10 +82,15 @@ const SideMenuStyle = {
       padding: ".4rem .5rem",
       borderRadius: "20px",
       background: "var(--brand-color)",
-      color: "var(--bg)",
+      color: "var(--text)",
       textDecoration: "none",
       textTransform: "capitalize",
       width: "68%",
+      transition: "background .2s ease",
+      "&:hover": css({
+        backgroundColor: "var(--brand-color-dark)",
+        border: "1px solid var(--brand-color)",
+      }),
     }),
   }),
   links: css({
@@ -98,7 +103,7 @@ const SideMenuStyle = {
     gap: "15px",
     overflow: "hidden",
     a: css({
-      color: "var(--bg)",
+      color: "var(--text)",
       display: "flex",
       alignItems: "center",
       gap: "5px",
@@ -112,7 +117,7 @@ const SideMenuStyle = {
   }),
 };
 
-export const SideMenu = () => {
+export const SideMenu = ({ theme, setTheme }: SideMenuProps) => {
   return (
     <div css={SideMenuStyle.self}>
       <div css={SideMenuStyle.settings}>
@@ -124,10 +129,8 @@ export const SideMenu = () => {
           </span>
         </div>
         <div css={SideMenuStyle.theme}>
-          <div>
-            <Moon size={24} />
-            <Sun size={24} />
-            <input type='checkbox' name='theme' id='theme' />
+          <div onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+            {theme === "light" ? <Moon size={24} /> : <Sun size={24} />}
           </div>
           <CaretLeft size={24} />
         </div>

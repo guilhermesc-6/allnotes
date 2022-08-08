@@ -5,8 +5,10 @@ import { Home } from "./pages/Home";
 import { SideMenu } from "./components/SideMenu";
 
 import bg from "./assets/bg-grid.svg";
+import { useState } from "react";
 
 function App() {
+  const [theme, setTheme] = useState<string>("light");
   return (
     <>
       <Global
@@ -14,13 +16,16 @@ function App() {
           :root {
             --brand-color: #0080cc;
             --bg: #e0e0e2;
-            --dark-blue: #1B1F3B
+            --bg-primary: #F1F2F9;
+            --brand-color-dark:#001A29;
+            --text:#141415
           }
           * {
             padding: 0;
             margin: 0;
-            box-sizing: boder-box;
+            box-sizing: border-box;
             font-family: "Roboto", sans-serif;
+            transition: all .4s ease;
           }
 
           body {
@@ -29,12 +34,14 @@ function App() {
             background-blend-mode: overlay;
           }
           #root{
+            max-width:100vw;
             display:flex;
+            ${theme === "dark" && "--text:#EAEAEB; --bg-primary:#0D0F1C"}
           }
         `}
       />
       {/* <SignIn /> */}
-      <SideMenu />
+      <SideMenu theme={theme} setTheme={setTheme} />
       <Home />
     </>
   );
