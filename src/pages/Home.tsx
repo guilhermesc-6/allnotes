@@ -70,6 +70,33 @@ const HomeStyle = {
     overflowX: "auto",
     width: "100%",
   }),
+  scratch: css({
+    width: "394px",
+    height: "340px",
+    borderRadius: "10px",
+    backgroundColor: "var(--scratch-bg)",
+    border: "1px solid #23232F",
+    h1: css({
+      padding: ".4rem",
+      fontSize: "1.3rem",
+      color: "var(--text)",
+    }),
+    textarea: css({
+      resize: "none",
+      width: "100%",
+      height: "290px",
+      border: "none",
+      backgroundColor: "var(--scratch-bg)",
+      padding: "0 .4rem",
+      color: "var(--text)",
+      "&:focus": css({
+        outline: "none",
+      }),
+      "&::placeholder": css({
+        color: "var(--text)",
+      }),
+    }),
+  }),
 };
 
 export const Home = () => {
@@ -148,7 +175,16 @@ export const Home = () => {
               })}
             </div>
           </div>
-          <div>Rascunho</div>
+          <div css={HomeStyle.scratch}>
+            <h1>Scratch Pad</h1>
+            <textarea
+              name='scratch'
+              id='scratch'
+              placeholder='Start typing...'
+              translate='no'
+              spellCheck='false'
+            ></textarea>
+          </div>
         </div>
       </div>
     </div>

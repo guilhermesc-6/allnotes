@@ -22,6 +22,7 @@ function App() {
             --background-image: url(https://images.pexels.com/photos/234602/pexels-photo-234602.jpeg);
             --note-bg: #CAC4B9;
             --note-card: #B0A796;
+            --scratch-bg: #C2BBAE;
           }
           * {
             padding: 0;
@@ -41,7 +42,7 @@ function App() {
             display:flex;
             ${
               theme === "dark" &&
-              "--text:#EAEAEB; --bg-primary:#0D0F1C; --note-bg: #17181F; --note-card: #23242F;"
+              "--text:#EAEAEB; --bg-primary:#0D0F1C; --note-bg: #17181F; --note-card: #23242F; --scratch-bg: #3D3E52"
             }
           }
         `}
