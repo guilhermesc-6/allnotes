@@ -8,7 +8,7 @@ import bg from "./assets/bg-grid.svg";
 import { useState } from "react";
 
 function App() {
-  const [theme, setTheme] = useState<string>("light");
+  const [theme, setTheme] = useState<"light" | "dark">("light");
   return (
     <>
       <Global
@@ -18,7 +18,10 @@ function App() {
             --bg: #e0e0e2;
             --bg-primary: #F1F2F9;
             --brand-color-dark:#001A29;
-            --text:#141415
+            --text:#141415;
+            --background-image: url(https://images.pexels.com/photos/234602/pexels-photo-234602.jpeg);
+            --note-bg: #CAC4B9;
+            --note-card: #B0A796;
           }
           * {
             padding: 0;
@@ -36,7 +39,10 @@ function App() {
           #root{
             max-width:100vw;
             display:flex;
-            ${theme === "dark" && "--text:#EAEAEB; --bg-primary:#0D0F1C"}
+            ${
+              theme === "dark" &&
+              "--text:#EAEAEB; --bg-primary:#0D0F1C; --note-bg: #17181F; --note-card: #23242F;"
+            }
           }
         `}
       />
