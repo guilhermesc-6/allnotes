@@ -3,8 +3,10 @@ import { Global } from "@emotion/react";
 import { SignIn } from "./pages/SignIn";
 import { Home } from "./pages/Home";
 import { SideMenu } from "./components/SideMenu";
+import { NoteEditor } from "./components/NoteEditor";
 
 import bg from "./assets/bg-grid.svg";
+
 import { useState } from "react";
 
 function App() {
@@ -42,14 +44,15 @@ function App() {
             display:flex;
             ${
               theme === "dark" &&
-              "--text:#EAEAEB; --bg-primary:#0D0F1C; --note-bg: #17181F; --note-card: #23242F; --scratch-bg: #3D3E52"
+              `--text:#EAEAEB; --bg-primary:#0D0F1C; --note-bg: #17181F; --note-card: #23242F; --scratch-bg: #3D3E52`
             }
           }
         `}
       />
       {/* <SignIn /> */}
       <SideMenu theme={theme} setTheme={setTheme} />
-      <Home />
+      {/* <Home /> */}
+      <NoteEditor />
     </>
   );
 }

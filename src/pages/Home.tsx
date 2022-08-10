@@ -176,10 +176,10 @@ export const Home = () => {
             </div>
           </div>
           <div css={HomeStyle.scratch}>
-            <h1>Scratch Pad</h1>
+            <h1>Scratchpad</h1>
             <textarea
-              name='scratch'
-              id='scratch'
+              name='scratchpad'
+              id='scratchpad'
               placeholder='Start typing...'
               translate='no'
               spellCheck='false'
