@@ -8,6 +8,7 @@ import { NoteEditor } from "./components/NoteEditor";
 import { Notes } from "./pages/Notes";
 
 import { useState } from "react";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 
 function App() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -56,10 +57,20 @@ function App() {
           }
         `}
       />
-      {/* <SignIn /> */}
-      <SideMenu theme={theme} setTheme={setTheme} />
-      {/* <Home /> */}
-      <Notes />
+      <BrowserRouter>
+        <Routes>
+          <Route path='/login' element={<SignIn />} />
+          <Route
+            path='/'
+            element={<SideMenu theme={theme} setTheme={setTheme} />}
+          >
+            <Route path='home' element={<Home />} />
+            <Route path='notes' element={<Notes />} />
+            <Route path='note-editor' element={<NoteEditor />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+      <Outlet />
     </>
   );
 }

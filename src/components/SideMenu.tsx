@@ -10,6 +10,7 @@ import {
   Notebook,
   Sun,
 } from "phosphor-react";
+import { Outlet } from "react-router-dom";
 
 type SideMenuProps = {
   theme: string;
@@ -119,37 +120,40 @@ const SideMenuStyle = {
 
 export const SideMenu = ({ theme, setTheme }: SideMenuProps) => {
   return (
-    <div css={SideMenuStyle.self}>
-      <div css={SideMenuStyle.settings}>
-        <div css={SideMenuStyle.user}>
-          <img src='https://github.com/guilhermesc-6.png' alt='avatar' />
-          <span>
-            Guilherme
-            <ArrowDown size={14} weight='bold' />
-          </span>
-        </div>
-        <div css={SideMenuStyle.theme}>
-          <div onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
-            {theme === "light" ? <Moon size={24} /> : <Sun size={24} />}
+    <>
+      <div css={SideMenuStyle.self}>
+        <div css={SideMenuStyle.settings}>
+          <div css={SideMenuStyle.user}>
+            <img src='https://github.com/guilhermesc-6.png' alt='avatar' />
+            <span>
+              Guilherme
+              <ArrowDown size={14} weight='bold' />
+            </span>
           </div>
-          <CaretLeft size={24} />
+          <div css={SideMenuStyle.theme}>
+            <div onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+              {theme === "light" ? <Moon size={24} /> : <Sun size={24} />}
+            </div>
+            <CaretLeft size={24} />
+          </div>
+        </div>
+        <div css={SideMenuStyle.btns}>
+          <input type='text' id='search' placeholder='search' />
+          <a href='#'>+ new note</a>
+        </div>
+        <div css={SideMenuStyle.links}>
+          <a href='#'>
+            <House size={24} /> Home
+          </a>
+          <a href='#'>
+            <Note size={24} /> Notes
+          </a>
+          <a href='#'>
+            <Notebook size={24} /> Collection
+          </a>
         </div>
       </div>
-      <div css={SideMenuStyle.btns}>
-        <input type='text' id='search' placeholder='search' />
-        <a href='#'>+ new note</a>
-      </div>
-      <div css={SideMenuStyle.links}>
-        <a href='#'>
-          <House size={24} /> Home
-        </a>
-        <a href='#'>
-          <Note size={24} /> Notes
-        </a>
-        <a href='#'>
-          <Notebook size={24} /> Collection
-        </a>
-      </div>
-    </div>
+      <Outlet />
+    </>
   );
 };

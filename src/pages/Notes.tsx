@@ -4,7 +4,7 @@ import { Note } from "phosphor-react";
 
 import { NoteEditor } from "../components/NoteEditor";
 
-import { FormEvent, useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 const NotesStyle = {
   self: css({
@@ -80,6 +80,11 @@ type NoteType = {
 };
 
 export const Notes = () => {
+  const [selectedNote, setSelectedNote] = useState<NoteType>({
+    title: "",
+    text: "",
+    edited_at: "",
+  });
   const note = [
     {
       title: "tarefas",
@@ -118,16 +123,13 @@ export const Notes = () => {
     },
   ];
 
-  let selectedNote: NoteType = { title: "", text: "", edited_at: "" };
-
   const selectNote = (event: FormEvent) => {
-    selectedNote = note[eval(event.currentTarget.id)];
-    console.log(selectedNote);
+    setSelectedNote(note[eval(event.currentTarget.id)]);
   };
 
   useEffect(() => {
     if (selectedNote.text === "") {
-      selectedNote = note[0];
+      setSelectedNote(note[0]);
     }
   }, []);
 

@@ -75,7 +75,8 @@ export const NoteEditor = ({ title, text }: NoteEditorProps) => {
   const [noteTitle, setNoteTitle] = useState("");
 
   useEffect(() => {
-    console.log(title);
+    setNoteText(text);
+    setNoteTitle(title);
   }, [text, title]);
 
   return (
