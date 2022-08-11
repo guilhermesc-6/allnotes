@@ -1,11 +1,11 @@
 import { Global } from "@emotion/react";
+import bg from "./assets/bg-grid.svg";
 
 import { SignIn } from "./pages/SignIn";
 import { Home } from "./pages/Home";
 import { SideMenu } from "./components/SideMenu";
 import { NoteEditor } from "./components/NoteEditor";
-
-import bg from "./assets/bg-grid.svg";
+import { Notes } from "./pages/Notes";
 
 import { useState } from "react";
 
@@ -59,7 +59,7 @@ function App() {
       {/* <SignIn /> */}
       <SideMenu theme={theme} setTheme={setTheme} />
       {/* <Home /> */}
-      <NoteEditor />
+      <Notes />
     </>
   );
 }
