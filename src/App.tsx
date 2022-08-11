@@ -25,6 +25,7 @@ function App() {
             --note-bg: #CAC4B9;
             --note-card: #B0A796;
             --scratch-bg: #C2BBAE;
+            --editor-bg: #E7E7EE;
           }
           * {
             padding: 0;
@@ -44,7 +45,13 @@ function App() {
             display:flex;
             ${
               theme === "dark" &&
-              `--text:#EAEAEB; --bg-primary:#0D0F1C; --note-bg: #17181F; --note-card: #23242F; --scratch-bg: #3D3E52`
+              `--text:#EAEAEB; 
+              --bg-primary:#0D0F1C; 
+              --note-bg: #17181F; 
+              --note-card: #23242F; 
+              --scratch-bg: #3D3E52; 
+              --editor-bg: #2B2B3B;
+              `
             }
           }
         `}

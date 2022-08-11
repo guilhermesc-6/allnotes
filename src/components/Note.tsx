@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 
-const NotesStyle = {
+const NoteStyle = {
   self: css({
     display: "flex",
     flexDirection: "column",
@@ -42,12 +42,12 @@ type NotesProps = {
   edited_at: string;
 };
 
-export const Notes = (props: NotesProps) => {
+export const Note = (props: NotesProps) => {
   return (
-    <div css={NotesStyle.self}>
-      <h1 css={NotesStyle.title}>{props.title}</h1>
-      <p css={NotesStyle.text}>{props.text}</p>
-      <span css={NotesStyle.footer}>{props.edited_at}</span>
+    <div css={NoteStyle.self}>
+      <h1 css={NoteStyle.title}>{props.title}</h1>
+      <p css={NoteStyle.text}>{props.text}</p>
+      <span css={NoteStyle.footer}>{props.edited_at}</span>
     </div>
   );
 };

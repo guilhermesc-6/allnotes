@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 
 import { CaretDoubleRight } from "phosphor-react";
 
-import { Notes } from "../components/Notes";
+import { Note } from "../components/Note";
 
 import { formatDate } from "../utils/formatDate";
 
@@ -166,7 +166,7 @@ export const Home = () => {
             <div css={HomeStyle.notesSlider}>
               {note.map((note) => {
                 return (
-                  <Notes
+                  <Note
                     title={note.title}
                     text={note.text}
                     edited_at={note.edited_at}
