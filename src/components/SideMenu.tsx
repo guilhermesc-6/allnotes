@@ -14,7 +14,8 @@ import { Link, Outlet } from "react-router-dom";
 
 type SideMenuProps = {
   theme: string;
-  setTheme: any;
+  setTheme: (theme: "light" | "dark") => void;
+  user: any;
 };
 
 const SideMenuStyle = {
@@ -118,15 +119,15 @@ const SideMenuStyle = {
   }),
 };
 
-export const SideMenu = ({ theme, setTheme }: SideMenuProps) => {
+export const SideMenu = ({ theme, setTheme, user }: SideMenuProps) => {
   return (
     <>
       <div css={SideMenuStyle.self}>
         <div css={SideMenuStyle.settings}>
           <div css={SideMenuStyle.user}>
-            <img src='https://github.com/guilhermesc-6.png' alt='avatar' />
+            <img src={user.photoURL} alt={user.displayName} />
             <span>
-              Guilherme
+              {user.displayName}
               <ArrowDown size={14} weight='bold' />
             </span>
           </div>

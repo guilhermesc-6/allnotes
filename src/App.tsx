@@ -8,10 +8,24 @@ import { NoteEditor } from "./components/NoteEditor";
 import { Notes } from "./pages/Notes";
 
 import { useEffect, useState } from "react";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import { User } from "firebase/auth";
+import { auth } from "./services/firebase";
 
 function App() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [user, setUser] = useState<User>({} as User);
+
+  console.log(auth.currentUser);
+
+  useEffect(() => {
+    if (auth.currentUser === null) {
+      if (location.pathname !== "/login") {
+        location.pathname = "/login";
+      }
+    }
+  }, []);
 
   useEffect(() => {
     //watches for changes in the colors theme of the browser
@@ -28,6 +42,12 @@ function App() {
     ) {
       setTheme("dark");
     }
+    return window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .removeEventListener("change", (event) => {
+        const newColorScheme = event.matches ? "dark" : "light";
+        setTheme(newColorScheme);
+      });
   }, []);
 
   return (
@@ -77,10 +97,10 @@ function App() {
       />
       <BrowserRouter>
         <Routes>
-          <Route path='/login' element={<SignIn />} />
+          <Route path='/login' element={<SignIn setUser={setUser} />} />
           <Route
             path='/'
-            element={<SideMenu theme={theme} setTheme={setTheme} />}
+            element={<SideMenu theme={theme} setTheme={setTheme} user={user} />}
           >
             <Route path='home' element={<Home />} />
             <Route path='notes' element={<Notes />} />

@@ -1,8 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 
+import {
+  browserLocalPersistence,
+  GoogleAuthProvider,
+  setPersistence,
+  signInWithPopup,
+  User,
+} from "firebase/auth";
+import { auth } from "../services/firebase";
+
 import logo from "../assets/logo.png";
 import logoGoogle from "../assets/google.png";
+import { useNavigate } from "react-router-dom";
 
 const signInStyle = {
   self: css({
@@ -52,7 +62,28 @@ const signInStyle = {
   }),
 };
 
-export const SignIn = () => {
+type SignInProps = {
+  setUser: (user: User) => void;
+};
+
+export const SignIn = ({ setUser }: SignInProps) => {
+  const navigate = useNavigate();
+
+  function handleGoogleSignIn() {
+    const provider = new GoogleAuthProvider();
+
+    setPersistence(auth, browserLocalPersistence)
+      .then(() => {
+        return signInWithPopup(auth, provider)
+          .then((res) => {
+            setUser(res.user);
+            navigate("/home");
+          })
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <div css={signInStyle.self}>
       <div css={signInStyle.logo}>
@@ -61,7 +92,7 @@ export const SignIn = () => {
         <span css={signInStyle.subtitle}>Remember everything.</span>
       </div>
       <div>
-        <button css={signInStyle.signinButton}>
+        <button css={signInStyle.signinButton} onClick={handleGoogleSignIn}>
           <img
             src={logoGoogle}
             alt='Logo google'
