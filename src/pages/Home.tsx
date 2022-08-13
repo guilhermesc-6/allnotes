@@ -3,6 +3,8 @@ import { css } from "@emotion/react";
 
 import { CaretDoubleRight } from "phosphor-react";
 
+import { Link } from "react-router-dom";
+
 import { Note } from "../components/Note";
 
 import { formatDate } from "../utils/formatDate";
@@ -160,9 +162,9 @@ export const Home = () => {
         </header>
         <div css={HomeStyle.widgets}>
           <div css={HomeStyle.notes}>
-            <a href='#'>
+            <Link to='/notes'>
               Notes <CaretDoubleRight size={24} color='#E0E0E2' />
-            </a>
+            </Link>
             <div css={HomeStyle.notesSlider}>
               {note.map((note) => {
                 return (

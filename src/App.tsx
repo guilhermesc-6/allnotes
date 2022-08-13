@@ -7,11 +7,29 @@ import { SideMenu } from "./components/SideMenu";
 import { NoteEditor } from "./components/NoteEditor";
 import { Notes } from "./pages/Notes";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 
 function App() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
+    //watches for changes in the colors theme of the browser
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (event) => {
+        const newColorScheme = event.matches ? "dark" : "light";
+        setTheme(newColorScheme);
+      });
+    //verify the themes settings of the user
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
+      setTheme("dark");
+    }
+  }, []);
+
   return (
     <>
       <Global
@@ -66,11 +84,13 @@ function App() {
           >
             <Route path='home' element={<Home />} />
             <Route path='notes' element={<Notes />} />
-            <Route path='note-editor' element={<NoteEditor />} />
+            <Route
+              path='note-editor'
+              element={<NoteEditor title='' text='' />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>
-      <Outlet />
     </>
   );
 }

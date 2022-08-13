@@ -10,7 +10,7 @@ import {
   Notebook,
   Sun,
 } from "phosphor-react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 type SideMenuProps = {
   theme: string;
@@ -139,18 +139,18 @@ export const SideMenu = ({ theme, setTheme }: SideMenuProps) => {
         </div>
         <div css={SideMenuStyle.btns}>
           <input type='text' id='search' placeholder='search' />
-          <a href='#'>+ new note</a>
+          <Link to='/note-editor'>+ new note</Link>
         </div>
         <div css={SideMenuStyle.links}>
-          <a href='#'>
+          <Link to='/home'>
             <House size={24} /> Home
-          </a>
-          <a href='#'>
+          </Link>
+          <Link to='/notes'>
             <Note size={24} /> Notes
-          </a>
-          <a href='#'>
+          </Link>
+          <Link to='#'>
             <Notebook size={24} /> Collection
-          </a>
+          </Link>
         </div>
       </div>
       <Outlet />
