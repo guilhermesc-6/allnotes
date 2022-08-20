@@ -6,6 +6,8 @@ import {
   onSnapshot,
   query,
   DocumentData,
+  orderBy,
+  limit,
 } from "firebase/firestore";
 
 import { CaretDoubleRight } from "phosphor-react";
@@ -120,7 +122,11 @@ export const Home = () => {
 
   useEffect(() => {
     const userId = auth.currentUser?.uid;
-    const q = query(collection(firestore, `${userId}`));
+    const q = query(
+      collection(firestore, `${userId}`),
+      orderBy("edited_at", "desc"),
+      limit(15)
+    );
     const subscriber = onSnapshot(q, (docSnapshot) => {
       const data: notesType[] = [];
       docSnapshot.forEach((doc) => {
@@ -172,6 +178,7 @@ export const Home = () => {
                   />
                 );
               })}
+              <Link to='/notes'>See all notes</Link>
             </div>
           </div>
           <div css={HomeStyle.scratch}>

@@ -109,7 +109,9 @@ export const NoteEditor = ({ title, text, noteId }: NoteEditorProps) => {
           title: noteTitle,
           text: noteText,
           created_at: serverTimestamp(),
+          edited_at: serverTimestamp(),
           user: auth.currentUser?.uid,
+          type: "note",
         });
 
         setDocID(docRef.id);
