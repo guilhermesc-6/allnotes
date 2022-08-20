@@ -9,6 +9,7 @@ import {
   collection,
   DocumentData,
   onSnapshot,
+  orderBy,
   query,
 } from "firebase/firestore";
 
@@ -147,7 +148,10 @@ export const Notes = () => {
 
   useEffect(() => {
     const userId = auth.currentUser?.uid;
-    const q = query(collection(firestore, `${userId}`));
+    const q = query(
+      collection(firestore, `${userId}`),
+      orderBy("edited_at", "desc")
+    );
     const subscriber = onSnapshot(q, (docSnapshot) => {
       const data: notesType[] = [];
       docSnapshot.forEach((doc) => {
