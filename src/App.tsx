@@ -17,9 +17,8 @@ function App() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [user, setUser] = useState<User>({} as User);
 
-  console.log(auth.currentUser);
-
   useEffect(() => {
+    //redirect the user for log in page
     if (auth.currentUser === null) {
       if (location.pathname !== "/login") {
         location.pathname = "/login";

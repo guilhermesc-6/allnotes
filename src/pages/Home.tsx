@@ -1,13 +1,22 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 
+import {
+  collection,
+  onSnapshot,
+  query,
+  DocumentData,
+} from "firebase/firestore";
+
 import { CaretDoubleRight } from "phosphor-react";
+import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 
 import { Note } from "../components/Note";
+import { auth, firestore } from "../services/firebase";
 
-import { formatDate } from "../utils/formatDate";
+import { dateFormatFirebase, formatDate } from "../utils/formatDate";
 
 const HomeStyle = {
   self: css({
@@ -101,44 +110,30 @@ const HomeStyle = {
   }),
 };
 
+type notesType = {
+  data: DocumentData;
+  id: string;
+};
+
 export const Home = () => {
-  const note = [
-    {
-      title: "tarefas",
-      text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
-      edited_at: "09 de aug",
-    },
-    {
-      title: "tarefas",
-      text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
-      edited_at: "09 de aug",
-    },
-    {
-      title: "tarefas",
-      text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
-      edited_at: "09 de aug",
-    },
-    {
-      title: "tarefas",
-      text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
-      edited_at: "09 de aug",
-    },
-    {
-      title: "tarefas",
-      text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
-      edited_at: "09 de aug",
-    },
-    {
-      title: "tarefas",
-      text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
-      edited_at: "09 de aug",
-    },
-    {
-      title: "tarefas",
-      text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
-      edited_at: "09 de aug",
-    },
-  ];
+  const [notes, setNotes] = useState<notesType[]>([]);
+
+  useEffect(() => {
+    const userId = auth.currentUser?.uid;
+    const q = query(collection(firestore, `${userId}`));
+    const subscriber = onSnapshot(q, (docSnapshot) => {
+      const data: notesType[] = [];
+      docSnapshot.forEach((doc) => {
+        data.push({
+          id: doc.id,
+          data: doc.data(),
+        });
+      });
+
+      setNotes(data);
+    });
+    return subscriber;
+  }, []);
 
   return (
     <div
@@ -166,12 +161,14 @@ export const Home = () => {
               Notes <CaretDoubleRight size={24} color='#E0E0E2' />
             </Link>
             <div css={HomeStyle.notesSlider}>
-              {note.map((note) => {
+              {notes.map((note: notesType) => {
                 return (
                   <Note
-                    title={note.title}
-                    text={note.text}
-                    edited_at={note.edited_at}
+                    key={note.id}
+                    title={note.data.title}
+                    text={note.data.text}
+                    edited_at={dateFormatFirebase(note.data.edited_at)}
+                    created_at={dateFormatFirebase(note.data.created_at)}
                   />
                 );
               })}

@@ -5,6 +5,16 @@ import { Note } from "phosphor-react";
 import { NoteEditor } from "../components/NoteEditor";
 
 import { FormEvent, useEffect, useState } from "react";
+import {
+  collection,
+  DocumentData,
+  onSnapshot,
+  query,
+} from "firebase/firestore";
+
+import { auth, firestore } from "../services/firebase";
+
+import { dateFormatFirebase } from "../utils/formatDate";
 
 const NotesStyle = {
   self: css({
@@ -79,57 +89,82 @@ type NoteType = {
   edited_at: string;
 };
 
+type notesType = {
+  data: DocumentData;
+  id: string;
+};
+
 export const Notes = () => {
-  const [selectedNote, setSelectedNote] = useState<NoteType>({
-    title: "",
-    text: "",
-    edited_at: "",
+  const [selectedNote, setSelectedNote] = useState<notesType>({
+    data: {},
+    id: "",
   });
-  const note = [
-    {
-      title: "tarefas",
-      text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
-      edited_at: "09 de aug",
-    },
-    {
-      title: "tarefas",
-      text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
-      edited_at: "09 de aug",
-    },
-    {
-      title: "tarefas",
-      text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
-      edited_at: "09 de aug",
-    },
-    {
-      title: "tarefas",
-      text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
-      edited_at: "09 de aug",
-    },
-    {
-      title: "tarefas",
-      text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
-      edited_at: "09 de aug",
-    },
-    {
-      title: "tarefas",
-      text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
-      edited_at: "09 de aug",
-    },
-    {
-      title: "tarefas",
-      text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
-      edited_at: "09 de aug",
-    },
-  ];
+  const [notes, setNotes] = useState<notesType[]>([]);
+  // const note = [
+  //   {
+  //     title: "tarefas",
+  //     text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
+  //     edited_at: "09 de aug",
+  //   },
+  //   {
+  //     title: "tarefas",
+  //     text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
+  //     edited_at: "09 de aug",
+  //   },
+  //   {
+  //     title: "tarefas",
+  //     text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
+  //     edited_at: "09 de aug",
+  //   },
+  //   {
+  //     title: "tarefas",
+  //     text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
+  //     edited_at: "09 de aug",
+  //   },
+  //   {
+  //     title: "tarefas",
+  //     text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
+  //     edited_at: "09 de aug",
+  //   },
+  //   {
+  //     title: "tarefas",
+  //     text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
+  //     edited_at: "09 de aug",
+  //   },
+  //   {
+  //     title: "tarefas",
+  //     text: "sfydfcvhgjk uygftcgv fgh fdguyihkgv ftyghi",
+  //     edited_at: "09 de aug",
+  //   },
+  // ];
 
   const selectNote = (event: FormEvent) => {
-    setSelectedNote(note[eval(event.currentTarget.id)]);
+    const result: notesType[] = notes.filter(
+      (note: notesType) => note.id === event.currentTarget.id
+    );
+    setSelectedNote(result[0]);
   };
 
   useEffect(() => {
-    if (selectedNote.text === "") {
-      setSelectedNote(note[0]);
+    const userId = auth.currentUser?.uid;
+    const q = query(collection(firestore, `${userId}`));
+    const subscriber = onSnapshot(q, (docSnapshot) => {
+      const data: notesType[] = [];
+      docSnapshot.forEach((doc) => {
+        data.push({
+          id: doc.id,
+          data: doc.data(),
+        });
+      });
+
+      setNotes(data);
+    });
+    return subscriber;
+  }, []);
+
+  useEffect(() => {
+    if (selectedNote?.data?.text === "") {
+      setSelectedNote(notes[0]);
     }
   }, []);
 
@@ -140,22 +175,30 @@ export const Notes = () => {
           <Note size={24} /> Notes
         </h1>
         <span>
-          {note.length > 1 ? `${note.length} notes` : `${note.length} note`}
+          {notes.length > 1 ? `${notes.length} notes` : `${notes.length} note`}
         </span>
         <div css={NotesStyle.list}>
-          {note.map((note, id) => {
+          {notes.map((note: notesType) => {
             return (
-              <div id={id.toString()} key={id} onClick={selectNote}>
-                <h1>{note.title}</h1>
-                <p>{note.text}</p>
-                <span>{note.edited_at}</span>
+              <div id={note.id} key={note.id} onClick={selectNote}>
+                <h1>{note.data.title}</h1>
+                <p>{note.data.text}</p>
+                <span>
+                  {note.data.edited_at
+                    ? dateFormatFirebase(note.data.edited_at)
+                    : dateFormatFirebase(note.data.created_at)}
+                </span>
               </div>
             );
           })}
         </div>
       </div>
       <div css={NotesStyle.editor}>
-        <NoteEditor title={selectedNote.title} text={selectedNote.text} />
+        <NoteEditor
+          title={selectedNote?.data?.title}
+          text={selectedNote?.data?.text}
+          noteId={selectedNote.id}
+        />
       </div>
     </div>
   );

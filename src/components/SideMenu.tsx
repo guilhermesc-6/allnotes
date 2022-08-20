@@ -10,7 +10,8 @@ import {
   Notebook,
   Sun,
 } from "phosphor-react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { auth } from "../services/firebase";
 
 type SideMenuProps = {
   theme: string;
@@ -120,15 +121,23 @@ const SideMenuStyle = {
 };
 
 export const SideMenu = ({ theme, setTheme, user }: SideMenuProps) => {
+  const navigate = useNavigate();
+
+  function handleUserSignOut() {
+    auth.signOut().then(() => {
+      navigate("/login");
+    });
+  }
   return (
     <>
       <div css={SideMenuStyle.self}>
         <div css={SideMenuStyle.settings}>
           <div css={SideMenuStyle.user}>
-            <img src={user.photoURL} alt={user.displayName} />
+            <img src={user.photoURL} alt='avatar' />
             <span>
               {user.displayName}
               <ArrowDown size={14} weight='bold' />
+              <button onClick={handleUserSignOut}>sign out</button>
             </span>
           </div>
           <div css={SideMenuStyle.theme}>

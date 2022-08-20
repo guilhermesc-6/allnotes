@@ -23,6 +23,7 @@ const NoteStyle = {
     textAlign: "center",
     color: "var(--text)",
     opacity: "0.7",
+    wordBreak: "break-word",
   }),
   footer: css({
     fontSize: ".9rem",
@@ -39,7 +40,8 @@ const NoteStyle = {
 type NotesProps = {
   title: string;
   text: string;
-  edited_at: string;
+  edited_at: string | undefined;
+  created_at: string | undefined;
 };
 
 export const Note = (props: NotesProps) => {
@@ -47,7 +49,9 @@ export const Note = (props: NotesProps) => {
     <div css={NoteStyle.self}>
       <h1 css={NoteStyle.title}>{props.title}</h1>
       <p css={NoteStyle.text}>{props.text}</p>
-      <span css={NoteStyle.footer}>{props.edited_at}</span>
+      <span css={NoteStyle.footer}>
+        {props.edited_at ? props.edited_at : props.created_at}
+      </span>
     </div>
   );
 };
