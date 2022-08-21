@@ -3,9 +3,10 @@ import { css } from "@emotion/react";
 
 import { useEffect, useState } from "react";
 
-import { Notepad } from "phosphor-react";
+import { Notepad, Trash } from "phosphor-react";
 import {
   collection,
+  deleteDoc,
   doc,
   serverTimestamp,
   setDoc,
@@ -32,6 +33,7 @@ const NoteEditorStyle = {
     backgroundColor: "var(--editor-bg)",
     display: "flex",
     gap: "10px",
+    justifyContent: "space-between",
     h1: css({
       fontSize: "1.2rem",
       display: "flex",
@@ -47,6 +49,14 @@ const NoteEditorStyle = {
       color: "var(--text)",
       "&:focus": css({
         outline: "1px solid var(--text)",
+      }),
+    }),
+    span: css({
+      display: "flex",
+      alignContent: "center",
+      cursor: "pointer",
+      "&:hover": css({
+        transform: "scale(1.2)",
       }),
     }),
   }),
@@ -132,6 +142,23 @@ export const NoteEditor = ({ title, text, noteId }: NoteEditorProps) => {
     }
   }
 
+  async function handleDeleteNote() {
+    if (docID === "") {
+      alert("Please select a note to delete");
+      return;
+    }
+    if (confirm("You really want to delete this note?")) {
+      await deleteDoc(doc(firestore, `${auth.currentUser?.uid}`, `${docID}`))
+        .then(() => {
+          setNoteText("");
+          setNoteTitle("");
+          setDocID("");
+          alert("Note deleted successfully");
+        })
+        .catch((error) => console.log(error));
+    }
+  }
+
   useEffect(() => {
     if (noteId) {
       setDocID(noteId);
@@ -157,6 +184,9 @@ export const NoteEditor = ({ title, text, noteId }: NoteEditorProps) => {
         <h1>
           <Notepad size={24} /> Notebook
         </h1>
+        <span>
+          <Trash size={24} weight='bold' onClick={handleDeleteNote} />
+        </span>
       </header>
       <div css={NoteEditorStyle.editor}>
         <textarea
