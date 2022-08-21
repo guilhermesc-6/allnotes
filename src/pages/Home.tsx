@@ -193,9 +193,9 @@ export const Home = () => {
                   <span>You dont have notes</span>{" "}
                 </div>
               ) : (
-                notes.map((note: notesType) => {
-                  return (
-                    <>
+                <>
+                  {notes.map((note: notesType) => {
+                    return (
                       <Note
                         key={note.id}
                         title={note.data.title}
@@ -203,10 +203,10 @@ export const Home = () => {
                         edited_at={dateFormatFirebase(note.data.edited_at)}
                         created_at={dateFormatFirebase(note.data.created_at)}
                       />
-                      <Link to='/notes'>See all notes</Link>
-                    </>
-                  );
-                })
+                    );
+                  })}
+                  <Link to='/notes'>See all notes</Link>{" "}
+                </>
               )}
             </div>
           </div>
