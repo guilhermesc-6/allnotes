@@ -57,7 +57,7 @@ function App() {
             --brand-color: #0080cc;
             --bg: #e0e0e2;
             --bg-primary: #F1F2F9;
-            --brand-color-dark:#001A29;
+            --brand-color-dark:#004E7A;
             --text:#141415;
             --background-image: url(https://images.pexels.com/photos/234602/pexels-photo-234602.jpeg);
             --note-bg: #CAC4B9;

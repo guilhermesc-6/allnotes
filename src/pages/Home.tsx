@@ -10,7 +10,7 @@ import {
   limit,
 } from "firebase/firestore";
 
-import { CaretDoubleRight } from "phosphor-react";
+import { CaretDoubleRight, NoteBlank } from "phosphor-react";
 import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
@@ -82,6 +82,17 @@ const HomeStyle = {
     padding: "1rem .5rem",
     overflowX: "auto",
     width: "100%",
+    "a:last-child": css({
+      fontSize: "1rem",
+      textAlign: "center",
+      background: "var(--brand-color)",
+      padding: ".3rem",
+      borderRadius: "10px",
+      color: "#fff",
+      "&:hover": css({
+        background: "var(--brand-color-dark)",
+      }),
+    }),
   }),
   scratch: css({
     width: "394px",
@@ -167,18 +178,36 @@ export const Home = () => {
               Notes <CaretDoubleRight size={24} color='#E0E0E2' />
             </Link>
             <div css={HomeStyle.notesSlider}>
-              {notes.map((note: notesType) => {
-                return (
-                  <Note
-                    key={note.id}
-                    title={note.data.title}
-                    text={note.data.text}
-                    edited_at={dateFormatFirebase(note.data.edited_at)}
-                    created_at={dateFormatFirebase(note.data.created_at)}
-                  />
-                );
-              })}
-              <Link to='/notes'>See all notes</Link>
+              {notes.length === 0 ? (
+                <div
+                  style={{
+                    flex: "1",
+                    color: "var(--text)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    justifyContent: "center",
+                  }}
+                >
+                  <NoteBlank size={32} weight='bold' />{" "}
+                  <span>You dont have notes</span>{" "}
+                </div>
+              ) : (
+                notes.map((note: notesType) => {
+                  return (
+                    <>
+                      <Note
+                        key={note.id}
+                        title={note.data.title}
+                        text={note.data.text}
+                        edited_at={dateFormatFirebase(note.data.edited_at)}
+                        created_at={dateFormatFirebase(note.data.created_at)}
+                      />
+                      <Link to='/notes'>See all notes</Link>
+                    </>
+                  );
+                })
+              )}
             </div>
           </div>
           <div css={HomeStyle.scratch}>

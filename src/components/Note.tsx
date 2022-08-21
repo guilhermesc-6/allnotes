@@ -12,6 +12,7 @@ const NoteStyle = {
     height: "250px",
     flexShrink: "0",
     position: "relative",
+    overflowY: "hidden",
   }),
   title: css({
     color: "var(--text)",
@@ -32,8 +33,9 @@ const NoteStyle = {
     position: "absolute",
     bottom: "0",
     width: "100%",
-    marginBottom: ".5rem",
+    paddingBottom: ".5rem",
     backgroundColor: "var(--note-card)",
+    borderRadius: "0 0 10px 10px",
   }),
 };
 

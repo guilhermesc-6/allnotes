@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 
 import { Notepad } from "phosphor-react";
 import {
-  addDoc,
   collection,
   doc,
   serverTimestamp,
@@ -71,6 +70,17 @@ const NoteEditorStyle = {
     width: "100%",
     padding: ".5rem 1rem",
     color: "var(--text)",
+    button: css({
+      padding: ".4rem 1rem",
+      border: "none",
+      borderRadius: "5px",
+      background: "var(--brand-color)",
+      color: "#fff",
+      cursor: "pointer",
+      "&:hover": css({
+        background: "var(--brand-color-dark)",
+      }),
+    }),
   }),
 };
 

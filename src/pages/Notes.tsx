@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { Note } from "phosphor-react";
+import { Note, NoteBlank } from "phosphor-react";
 
 import { NoteEditor } from "../components/NoteEditor";
 
@@ -82,12 +82,6 @@ const NotesStyle = {
   editor: css({
     flex: "1",
   }),
-};
-
-type NoteType = {
-  title: string;
-  text: string;
-  edited_at: string;
 };
 
 type notesType = {
@@ -182,19 +176,35 @@ export const Notes = () => {
           {notes.length > 1 ? `${notes.length} notes` : `${notes.length} note`}
         </span>
         <div css={NotesStyle.list}>
-          {notes.map((note: notesType) => {
-            return (
-              <div id={note.id} key={note.id} onClick={selectNote}>
-                <h1>{note.data.title}</h1>
-                <p>{note.data.text}</p>
-                <span>
-                  {note.data.edited_at
-                    ? dateFormatFirebase(note.data.edited_at)
-                    : dateFormatFirebase(note.data.created_at)}
-                </span>
-              </div>
-            );
-          })}
+          {notes.length === 0 ? (
+            <div
+              style={{
+                flex: "1",
+                color: "var(--text)",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                justifyContent: "center",
+              }}
+            >
+              <NoteBlank size={32} weight='bold' />{" "}
+              <span>You dont have notes</span>{" "}
+            </div>
+          ) : (
+            notes.map((note: notesType) => {
+              return (
+                <div id={note.id} key={note.id} onClick={selectNote}>
+                  <h1>{note.data.title}</h1>
+                  <p>{note.data.text}</p>
+                  <span>
+                    {note.data.edited_at
+                      ? dateFormatFirebase(note.data.edited_at)
+                      : dateFormatFirebase(note.data.created_at)}
+                  </span>
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
       <div css={NotesStyle.editor}>
