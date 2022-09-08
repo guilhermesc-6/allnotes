@@ -49,8 +49,12 @@ type NotesProps = {
 export const Note = (props: NotesProps) => {
   return (
     <div css={NoteStyle.self}>
-      <h1 css={NoteStyle.title}>{props.title}</h1>
-      <p css={NoteStyle.text}>{props.text}</p>
+      <h1 css={NoteStyle.title}>
+        {props.title.length ? props.title : "No title"}
+      </h1>
+      <p css={NoteStyle.text}>
+        {props.text.length ? props.text : "Empty note."}
+      </p>
       <span css={NoteStyle.footer}>
         {props.edited_at ? props.edited_at : props.created_at}
       </span>
