@@ -194,8 +194,12 @@ export const Notes = () => {
             notes.map((note: notesType) => {
               return (
                 <div id={note.id} key={note.id} onClick={selectNote}>
-                  <h1>{note.data.title}</h1>
-                  <p>{note.data.text}</p>
+                  <h1>
+                    {note.data.title.length ? note.data.title : "No Title"}
+                  </h1>
+                  <p>
+                    {note.data.text.length ? note.data.text : "Empty note."}
+                  </p>
                   <span>
                     {note.data.edited_at
                       ? dateFormatFirebase(note.data.edited_at)
