@@ -77,7 +77,7 @@ export const SignIn = ({ setUser }: SignInProps) => {
         return signInWithPopup(auth, provider)
           .then((res) => {
             setUser(res.user);
-            navigate("/home");
+            navigate("/app/home");
           })
           .catch((err) => console.log(err));
       })

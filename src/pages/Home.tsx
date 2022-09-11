@@ -174,7 +174,7 @@ export const Home = () => {
         </header>
         <div css={HomeStyle.widgets}>
           <div css={HomeStyle.notes}>
-            <Link to='/notes'>
+            <Link to='/app/notes'>
               Notes <CaretDoubleRight size={24} color='#E0E0E2' />
             </Link>
             <div css={HomeStyle.notesSlider}>
@@ -205,7 +205,7 @@ export const Home = () => {
                       />
                     );
                   })}
-                  <Link to='/notes'>See all notes</Link>{" "}
+                  <Link to='/app/notes'>See all notes</Link>{" "}
                 </>
               )}
             </div>

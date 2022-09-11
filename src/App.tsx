@@ -18,15 +18,6 @@ function App() {
   const [user, setUser] = useState<User>({} as User);
 
   useEffect(() => {
-    //redirect the user for log in page
-    if (auth.currentUser === null) {
-      if (location.pathname !== "/login") {
-        location.pathname = "/login";
-      }
-    }
-  }, []);
-
-  useEffect(() => {
     //watches for changes in the colors theme of the browser
     window
       .matchMedia("(prefers-color-scheme: dark)")
@@ -96,9 +87,9 @@ function App() {
       />
       <BrowserRouter>
         <Routes>
-          <Route path='/login' element={<SignIn setUser={setUser} />} />
+          <Route path='/' element={<SignIn setUser={setUser} />} />
           <Route
-            path='/'
+            path='/app'
             element={<SideMenu theme={theme} setTheme={setTheme} user={user} />}
           >
             <Route path='home' element={<Home />} />

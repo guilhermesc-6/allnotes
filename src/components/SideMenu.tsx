@@ -152,7 +152,7 @@ export const SideMenu = ({ theme, setTheme, user }: SideMenuProps) => {
     auth
       .signOut()
       .then(() => {
-        navigate("/login");
+        navigate("/");
       })
       .catch((error) => {
         console.error(error);
@@ -208,18 +208,18 @@ export const SideMenu = ({ theme, setTheme, user }: SideMenuProps) => {
         </div>
         <div css={SideMenuStyle.btns}>
           <Link
-            to='/note-editor'
+            to='/app/note-editor'
             style={isMenuHide ? { textAlign: "center" } : {}}
           >
             {isMenuHide ? <PlusCircle size={24} weight='bold' /> : "+ new note"}
           </Link>
         </div>
         <div css={SideMenuStyle.links}>
-          <Link to='/home'>
+          <Link to='/app/home'>
             <House size={24} />
             {!isMenuHide && "Home"}
           </Link>
-          <Link to='/notes'>
+          <Link to='/app/notes'>
             <Note size={24} />
             {!isMenuHide && "Notes"}
           </Link>
