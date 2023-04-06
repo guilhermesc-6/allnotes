@@ -37,11 +37,22 @@ const HomeStyle = {
       backgroundPosition: "center",
       backgroundSize: "cover",
       position: "absolute",
+      "@media screen and (max-width: 480px)": css({
+        height: "32%",
+      }),
     }),
     ">div": css({
       zIndex: "10",
       backgroundColor: "rgba(234, 234, 235,.2)",
       height: "100%",
+      width: "100%",
+    }),
+    "@media screen and (max-width: 480px)": css({
+      width: "calc(100% - 60px)",
+    }),
+    "@media screen and (max-width: 820px)": css({
+      width: "calc(100% - 60px)",
+      overflow: "hidden",
     }),
   }),
   header: css({
@@ -52,7 +63,7 @@ const HomeStyle = {
     color: "var(--text)",
     "span:last-child": css({
       fontSize: "1rem",
-      marginRight: "2.5rem",
+      margin: ".3rem 2rem 0 0",
     }),
   }),
   widgets: css({
@@ -60,6 +71,10 @@ const HomeStyle = {
     display: "flex",
     gap: "10px",
     padding: "0 2rem",
+    "@media screen and (max-width: 820px)": css({
+      flexDirection: "column",
+      padding: "0 1rem",
+    }),
   }),
   notes: css({
     width: "800px",
@@ -74,6 +89,9 @@ const HomeStyle = {
       fontSize: "1.5rem",
       textDecoration: "none",
       color: "var(--text)",
+    }),
+    "@media screen and (max-width: 820px)": css({
+      width: "100%",
     }),
   }),
   notesSlider: css({
@@ -119,6 +137,10 @@ const HomeStyle = {
       "&::placeholder": css({
         color: "var(--text)",
       }),
+    }),
+    "@media screen and (max-width: 820px)": css({
+      width: "100%",
+      marginBottom: "1rem",
     }),
   }),
 };
@@ -189,8 +211,7 @@ export const Home = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <NoteBlank size={32} weight='bold' />{" "}
-                  <span>You dont have notes</span>{" "}
+                  <NoteBlank size={32} weight='bold' /> <span>You dont have notes</span>{" "}
                 </div>
               ) : (
                 <>

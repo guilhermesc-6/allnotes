@@ -30,11 +30,14 @@ const SideMenuStyle = {
     alignItems: "center",
     gap: "5px",
     width: "280px",
-    height: "100vh",
+    minHeight: "100vh",
     background: "var(--bg-primary)",
     color: "var(--text)",
     borderRight: "1px solid var(--text)",
     transition: "all .5s ease",
+    "@media screen and (max-width: 768px)": css({
+      width: "60px",
+    }),
   }),
   settings: css({
     width: "100%",
@@ -43,6 +46,9 @@ const SideMenuStyle = {
     marginTop: "1rem",
     alignItems: "center",
     justifyContent: "space-between",
+    "@media screen and (max-width: 768px)": css({
+      flexDirection: "column",
+    }),
   }),
   theme: css({
     display: "flex",
@@ -51,6 +57,10 @@ const SideMenuStyle = {
     paddingRight: "1rem",
     gap: "5px",
     svg: css({ cursor: "pointer" }),
+    "@media screen and (max-width: 768px)": css({
+      padding: "0",
+      ">svg": css({ display: "none" }),
+    }),
   }),
   user: css({
     display: "flex",
@@ -97,6 +107,12 @@ const SideMenuStyle = {
         }),
       }),
     }),
+    "@media screen and (max-width: 768px)": css({
+      overflow: "visible",
+      justifyContent: "center",
+      paddingLeft: "1.5rem",
+      ">div": css({ zIndex: "10" }),
+    }),
   }),
   btns: css({
     display: "flex",
@@ -114,9 +130,19 @@ const SideMenuStyle = {
       textTransform: "capitalize",
       width: "68%",
       transition: "background .2s ease",
+      display: "flex",
+      svg: css({
+        opacity: "0",
+      }),
+      span: css({ width: "100%", padding: ".2rem 0" }),
       "&:hover": css({
         backgroundColor: "var(--brand-color-dark)",
         color: "#ccc",
+      }),
+      "@media screen and (max-width: 768px)": css({
+        padding: ".4rem",
+        svg: css({ opacity: "1" }),
+        span: css({ width: "0", height: "0", opacity: "0" }),
       }),
     }),
   }),
@@ -139,6 +165,11 @@ const SideMenuStyle = {
       padding: ".5rem 1.5rem",
       "&:hover": css({
         background: "var(--brand-color)",
+      }),
+      "@media screen and (max-width: 768px)": css({
+        padding: " 1rem 0 1rem 1rem",
+        width: "auto",
+        gap: "25px",
       }),
     }),
   }),
@@ -190,11 +221,7 @@ export const SideMenu = ({ theme, setTheme, user }: SideMenuProps) => {
           </div>
           <div
             css={SideMenuStyle.theme}
-            style={
-              isMenuHide
-                ? { width: "100%", margin: "0 auto", padding: "0" }
-                : {}
-            }
+            style={isMenuHide ? { width: "100%", margin: "0 auto", padding: "0" } : {}}
           >
             <div onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
               {theme === "light" ? <Moon size={24} /> : <Sun size={24} />}
@@ -209,9 +236,27 @@ export const SideMenu = ({ theme, setTheme, user }: SideMenuProps) => {
         <div css={SideMenuStyle.btns}>
           <Link
             to='/app/note-editor'
-            style={isMenuHide ? { textAlign: "center" } : {}}
+            style={
+              isMenuHide
+                ? {
+                    textAlign: "center",
+                    overflow: "hidden",
+                  }
+                : {}
+            }
           >
-            {isMenuHide ? <PlusCircle size={24} weight='bold' /> : "+ new note"}
+            <PlusCircle
+              size={28}
+              weight='bold'
+              style={
+                isMenuHide
+                  ? { opacity: "1", marginLeft: "5px", transform: "translateX(-15%)" }
+                  : {}
+              }
+            />
+            <span style={isMenuHide ? { opacity: "0", height: "0", width: "0" } : {}}>
+              + new note
+            </span>
           </Link>
         </div>
         <div css={SideMenuStyle.links}>

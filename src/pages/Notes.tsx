@@ -5,13 +5,7 @@ import { Note, NoteBlank } from "phosphor-react";
 import { NoteEditor } from "../components/NoteEditor";
 
 import { FormEvent, useEffect, useState } from "react";
-import {
-  collection,
-  DocumentData,
-  onSnapshot,
-  orderBy,
-  query,
-} from "firebase/firestore";
+import { collection, DocumentData, onSnapshot, orderBy, query } from "firebase/firestore";
 
 import { auth, firestore } from "../services/firebase";
 
@@ -25,7 +19,7 @@ const NotesStyle = {
     gap: "5px",
     backgroundColor: "var(--editor-bg)",
     color: "var(--text)",
-    overflowY: "hidden",
+    overflowY: "hidden"
   }),
   notesList: css({
     width: "350px",
@@ -44,6 +38,10 @@ const NotesStyle = {
     }),
     ">span": css({
       paddingLeft: ".6rem",
+    }),
+    "@media screen and (max-width: 820px)": css({
+      minWidth: "150px",
+      marginBottom: "1rem",
     }),
   }),
   list: css({
@@ -142,10 +140,7 @@ export const Notes = () => {
 
   useEffect(() => {
     const userId = auth.currentUser?.uid;
-    const q = query(
-      collection(firestore, `${userId}`),
-      orderBy("edited_at", "desc")
-    );
+    const q = query(collection(firestore, `${userId}`), orderBy("edited_at", "desc"));
     const subscriber = onSnapshot(q, (docSnapshot) => {
       const data: notesType[] = [];
       docSnapshot.forEach((doc) => {
@@ -172,9 +167,7 @@ export const Notes = () => {
         <h1>
           <Note size={24} /> Notes
         </h1>
-        <span>
-          {notes.length > 1 ? `${notes.length} notes` : `${notes.length} note`}
-        </span>
+        <span>{notes.length > 1 ? `${notes.length} notes` : `${notes.length} note`}</span>
         <div css={NotesStyle.list}>
           {notes.length === 0 ? (
             <div
@@ -187,19 +180,14 @@ export const Notes = () => {
                 justifyContent: "center",
               }}
             >
-              <NoteBlank size={32} weight='bold' />{" "}
-              <span>You dont have notes</span>{" "}
+              <NoteBlank size={32} weight='bold' /> <span>You dont have notes</span>{" "}
             </div>
           ) : (
             notes.map((note: notesType) => {
               return (
                 <div id={note.id} key={note.id} onClick={selectNote}>
-                  <h1>
-                    {note.data.title.length ? note.data.title : "No Title"}
-                  </h1>
-                  <p>
-                    {note.data.text.length ? note.data.text : "Empty note."}
-                  </p>
+                  <h1>{note.data.title.length ? note.data.title : "No Title"}</h1>
+                  <p>{note.data.text.length ? note.data.text : "Empty note."}</p>
                   <span>
                     {note.data.edited_at
                       ? dateFormatFirebase(note.data.edited_at)
