@@ -25,6 +25,13 @@ const signInStyle = {
     minHeight: "100vh",
     boxShadow: " 0px 4px 24px rgba(0, 0, 0, 0.1)",
     justifyContent: "space-evenly",
+    "@media screen and (max-width: 480px)": css({
+      background: "rgba(0, 129, 204, 0.2)",
+      boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
+      backdropFilter: "blur(3.2px)",
+      "-webkit-backdrop-filter": "blur(3.2px)",
+      border: "1px solid rgba(0, 129, 204, 0.34)",
+    }),
   }),
   logo: css({
     display: "flex",
